@@ -8,7 +8,38 @@
     <link href=""/>
     <link rel = "stylesheet" type = "text/css" href="{% static 'assets/style.css'%}"/>
 </head>
-<body>
+<body class="text-white" style="background-color: #141414;">
+    <header class ="p-5 flex justify-between items-center">
+        <img src="" />
+        <nav class="flex space-x-5">
+            <span>Home</span>
+            <span>Series</span>
+            <span>Films</span>
+            <span>New & Popular</span>
+        </nav>
+        <div class="flex space-x-5 items-center">
+            <input type ="search" placeholder="Search" class="bg-gray-700">
+            <button class="bg-red-600 text-white p-2 rounded hover: bg-red-600"></button>
+            <div class="relative">
+                <a href="#" class="block p-2">Welcome!,{{user.username}}</a>
+                <a href="#" class="block p-2">Logout</a>
+            </div>
+        </div>
+    </header>
+    <section class = "relative py-20 px-10" style="background-image: url('');">
+       <div>
+          <h1 class="text-5xl mb-5">Talk to me</h1>
+          <p class="mb-5">One of the best movies on the platform.</p>
+          <div class="flex space-x-4">
+            <a href="movie.html">
+                <button class ="bg-red-600 text-white p-2 px-5 rounded"></button>
+            </a>
+                <button class ="border border-white text-white p-2 p-5 rounded"></button>
+          </div>
+       </div>
+
+
+    </section>
     
 </body>
 </html>

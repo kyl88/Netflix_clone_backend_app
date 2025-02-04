@@ -7,6 +7,17 @@ def index(request):
     return render(request, 'index.html')
 
 def login(request):
+    if request.method == 'POST':
+       username = request.post['Username']
+       password = request.post['Password']
+
+       user = auth.authenticate(username=username, password=password)
+       if user is not None:
+          auth.login(request, user)
+          return redirect('/')
+       else:
+          messages.info(request, 'Credentials Invalid')
+          return redirect('login')
     return render(request, 'login.html')
 
 def signup(request):

@@ -12,7 +12,19 @@
     <div class ="bg-image">
         <div class="signup-container">
             <h1>Sign up</h1>
-            <h2>Email</h2>
+            <h2>Unlimited Movies, TV shows, and more</h2>
+
+            <div>
+                <style>
+                  h5 {
+                    color: red;
+                  }
+                </style>
+
+                {% for message in messages %}
+               <h5>{{message}}</h5>
+                {% endfor %}
+            </div>
             <form action="" method="POST">
                 {% csrf_token %}
                 <input type="email" name ="email" placeholder="Email address" />

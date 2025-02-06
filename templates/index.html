@@ -7,6 +7,7 @@
     <title>Netflix Clone</title>
     <link href=""/>
     <link rel = "stylesheet" type = "text/css" href="{% static 'assets/style.css'%}"/>
+    <script src=""></script> 
 </head>
 <body class="text-white" style="background-color: #141414;">
     <header class ="p-5 flex justify-between items-center">
@@ -37,11 +38,19 @@
         <div class="flex space-x-5 items-center">
             <input type ="search" placeholder="Search" class="bg-gray-700">
             <button class="bg-red-600 text-white p-2 rounded hover: bg-red-600"></button>
+        <form action="search" method="POST">
+            {% csrf_token %}
+            <input type="search" name="search_term" placeholder="search_term">
+            <button class="bg-red-600 text-white p-2 rounded hover:bg-red">Search</button>
+
+        </form>   
+           
+           
             <div class="relative">
                 <a href="#" class="block p-2">Welcome!,{{user.username}}</a>
-                <a href="#" class="block p-2">Logout</a>
+                <a href="/logout" class="block p-2">Logout</a>
             </div>
-        </div>
+        </div>  
     </header>
     <section class = "relative py-20 px-10" style="background-image: url('');">
        <div>
@@ -79,6 +88,53 @@
 
     </section>
 
+    
+    <section>
+        <h2 class="text-xl mb-5">Popular on Netflix</h2>
+        <div class="flex space-x-5 overflow-x-auto">
+            <div class="w-40 h-64 flex-shrink-0" style="background-image: url();"></div>
+            <div class="w-40 h-64 flex-shrink-0" style="background-image: url();"></div>
+            <div class="w-40 h-64 flex-shrink-0" style="background-image: url();"></div>
+            <div class="w-40 h-64 flex-shrink-0" style="background-image: url();"></div>
+            <div class="w-40 h-64 flex-shrink-0" style="background-image: url();"></div>
+            <div class="w-40 h-64 flex-shrink-0" style="background-image: url();"></div>
+            <div class="w-40 h-64 flex-shrink-0" style="background-image: url();"></div>
+            <div class="w-40 h-64 flex-shrink-0" style="background-image: url();"></div>
+            <div class="w-40 h-64 flex-shrink-0" style="background-image: url();"></div>
+        </div>
+    </section>
+
+    <!--Modal-->
+    <class="modal" id="movieModal">
+        <div class="modal-content">
+            <div class="flex justify-between">
+                <h2 class="text-xl mb-5">Movie Title</h2> 
+                <button onclick="hideout()">X</button>
+
+            </div>
+
+            <img width="1000" height="100" src="" />
+            <div class="flex justify-between mb-5">
+                <span>Year: 2023</span>
+                <span>Length: 2h 15min</span>
+            </div>
+            <p class="mb-5">Detailed information about the movie</p>
+            <div class="flex space-x-4 mb-5">
+                <a href="movie.html">
+                    <button id="addToListButton" onclick="addItemToList()" class ="bg-red-600 text-white p-2 px-5">Add to List</button> 
+                </a>
+                <button class="border border-white text-white p-2 px-5">
+
+                </button>
+
+
+            </div>
+            <h3 class="text-lg mb-5">More Like This</h3>
+            <div class="flex space-x-5">    </div>
+
+        </div>
+    </div>
+
     <script>
         function showModal(element){
             // retrieve data attributes
@@ -104,7 +160,43 @@
             modal.querySelector('.modal-content p');
 
         }
+
+        window.onclick = function(event){
+            if (event.target === document.getElementById('movieModal')){
+                hideModal();
+
+            }
+
+            function addItemToList() {
+              const modal = document.getElementById('movieModal')
+              var movieID = modal.querySelector('/.modal-content a').href;
+              $.ajax({
+                url: "{% url 'add-to-list' %}",
+                type: "POST",
+                data: {
+                    movie_id: movieID,
+                    csrfmiddlewaretoken: "{{csrf_token}}"
+                },
+
+                success: function(data) {
+                    $('#addToListButton').text(data.message);
+                    $('#addToListButton').prop('disabled', true)
+
+                    console.log("Item added to list");
+
+                },
+                error: function(xhr, errmsg, err){
+                    console.log("Error adding item to list" + errmsg);
+
+                }
+
+
+              }); 
+
+            }
+        }
     </script>
+
  
 </body>
 </html>
